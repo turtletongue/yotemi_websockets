@@ -1,6 +1,6 @@
 import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
-import { RedisService } from '@common/redis';
+import { PubsubService } from '@common/pubsub';
 import { Id } from '@app/app.declarations';
 import NotificationsGateway from './notifications.gateway';
 import PlainNotification from './plain-notification';
@@ -15,7 +15,7 @@ export default class NotificationsConsumer
 {
   constructor(
     private readonly notificationsGateway: NotificationsGateway,
-    private readonly redis: RedisService,
+    private readonly pubsub: PubsubService,
   ) {}
 
   public async send(data: NotificationData): Promise<void> {
@@ -33,7 +33,7 @@ export default class NotificationsConsumer
   }
 
   public async onModuleInit(): Promise<void> {
-    const client = this.redis.getClient();
+    const client = this.pubsub.getClient();
 
     await client.subscribe('send-notification', (data) => {
       this.send(JSON.parse(data));
@@ -45,7 +45,7 @@ export default class NotificationsConsumer
   }
 
   public async onModuleDestroy(): Promise<void> {
-    const client = this.redis.getClient();
+    const client = this.pubsub.getClient();
 
     await client.unsubscribe('send-notification');
 

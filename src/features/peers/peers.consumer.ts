@@ -1,6 +1,6 @@
 import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
-import { RedisService } from '@common/redis';
+import { PubsubService } from '@common/pubsub';
 import { Id } from '@app/app.declarations';
 import PeersGateway from './peers.gateway';
 
@@ -12,7 +12,7 @@ interface PeerData {
 export default class PeersConsumer implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly peersGateway: PeersGateway,
-    private readonly redis: RedisService,
+    private readonly pubsub: PubsubService,
   ) {}
 
   public async muteAudio(data: PeerData): Promise<void> {
@@ -36,7 +36,7 @@ export default class PeersConsumer implements OnModuleInit, OnModuleDestroy {
   }
 
   public async onModuleInit(): Promise<void> {
-    const client = this.redis.getClient();
+    const client = this.pubsub.getClient();
 
     await client.subscribe('peer-mute-audio', (data) => {
       this.muteAudio(JSON.parse(data));
@@ -60,7 +60,7 @@ export default class PeersConsumer implements OnModuleInit, OnModuleDestroy {
   }
 
   public async onModuleDestroy(): Promise<void> {
-    const client = this.redis.getClient();
+    const client = this.pubsub.getClient();
 
     await client.unsubscribe('peer-mute-audio');
 

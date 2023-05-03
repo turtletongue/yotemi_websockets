@@ -8,16 +8,16 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { createClient, RedisClientType } from 'redis';
 
-import redisConfig from '@config/redis.config';
+import pubsubConfig from '@config/pubsub.config';
 
 @Injectable()
-export default class RedisService implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(RedisService.name);
+export default class PubsubService implements OnModuleInit, OnModuleDestroy {
+  private readonly logger = new Logger(PubsubService.name);
   private readonly client: RedisClientType;
 
   constructor(
-    @Inject(redisConfig.KEY)
-    private readonly config: ConfigType<typeof redisConfig>,
+    @Inject(pubsubConfig.KEY)
+    private readonly config: ConfigType<typeof pubsubConfig>,
   ) {
     this.client = createClient({
       url: config.connection,
