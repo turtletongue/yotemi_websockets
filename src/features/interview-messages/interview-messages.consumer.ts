@@ -1,4 +1,4 @@
-import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
 import { PubsubService } from '@common/pubsub';
 import { Id } from '@app/app.declarations';
@@ -10,6 +10,7 @@ interface SendMessageData {
   message: PlainInterviewMessage;
 }
 
+@Injectable()
 export default class InterviewMessagesConsumer
   implements OnModuleInit, OnModuleDestroy
 {

@@ -1,4 +1,4 @@
-import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
 import { PubsubService } from '@common/pubsub';
 import { Id } from '@app/app.declarations';
@@ -9,6 +9,7 @@ interface PeerData {
   interviewId: Id;
 }
 
+@Injectable()
 export default class PeersConsumer implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly peersGateway: PeersGateway,
