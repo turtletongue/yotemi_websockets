@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  websockets:
+    build: .
+    container_name: yotemi_websockets
+    restart: always
+    tty: true
+    env_file:
+      - .env
+    ports:
+      - "3031:3031"
