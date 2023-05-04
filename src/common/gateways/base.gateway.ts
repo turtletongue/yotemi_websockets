@@ -42,15 +42,15 @@ export default class BaseGateway implements OnGatewayConnection {
       return;
     }
 
-    console.log(user);
-
     if (user.kind === 'admin') {
       return client.join('admins');
     }
 
-    user.executor.followingsIds.forEach((followingId) => {
-      client.join(`followers-of-${followingId}`);
-    });
+    if (user.executor) {
+      user.executor.followingsIds.forEach((followingId) => {
+        client.join(`followers-of-${followingId}`);
+      });
+    }
 
     return client.join(`user-${user.executor.id}`);
   }
