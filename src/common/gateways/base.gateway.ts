@@ -42,6 +42,8 @@ export default class BaseGateway implements OnGatewayConnection {
       return;
     }
 
+    console.log(user);
+
     if (user.kind === 'admin') {
       return client.join('admins');
     }
