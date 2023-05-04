@@ -16,9 +16,9 @@ import gatewayOptions from './gateway.options';
 type JwtPayloadData =
   | {
       kind: 'user';
-      data: { id: Id; followingIds: Id[] };
+      executor: { id: Id; followingIds: Id[] };
     }
-  | { kind: 'admin'; data: { id: Id } };
+  | { kind: 'admin'; executor: { id: Id } };
 
 @WebSocketGateway(gatewayOptions)
 export default class BaseGateway implements OnGatewayConnection {
@@ -46,11 +46,11 @@ export default class BaseGateway implements OnGatewayConnection {
       return client.join('admins');
     }
 
-    user.data.followingIds.forEach((followingId) => {
+    user.executor.followingIds.forEach((followingId) => {
       client.join(`followers-of-${followingId}`);
     });
 
-    return client.join(`user-${user.data.id}`);
+    return client.join(`user-${user.executor.id}`);
   }
 
   private async getUserFromToken(
