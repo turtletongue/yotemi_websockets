@@ -16,7 +16,7 @@ import gatewayOptions from './gateway.options';
 type JwtPayloadData =
   | {
       kind: 'user';
-      executor: { id: Id; followingIds: Id[] };
+      executor: { id: Id; followingsIds: Id[] };
     }
   | { kind: 'admin'; executor: { id: Id } };
 
@@ -46,7 +46,7 @@ export default class BaseGateway implements OnGatewayConnection {
       return client.join('admins');
     }
 
-    user.executor.followingIds.forEach((followingId) => {
+    user.executor.followingsIds.forEach((followingId) => {
       client.join(`followers-of-${followingId}`);
     });
 
