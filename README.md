@@ -43,6 +43,6 @@ docker-compose down
 
 ## Project Structure
 
-`/src/common` folder contains useful services, modules, functions and decorators.
+`./src/common` folder contains useful services, modules, functions and decorators.
 
-`/src/features` folder contains domain features.
+`./src/features` folder contains domain features.
